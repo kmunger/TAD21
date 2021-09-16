@@ -21,6 +21,8 @@ nsyllable(c("Superman.", "supercalifragilisticexpialidocious", "The cat in the h
 nscrabble(c("cat", "quixotry", "zoo"))
 
 #We can analyze the **lexical diversity** of texts, using `lexdiv()` on a dfm:
+summary(data_corpus_inaugural)
+
 
 myDfm <- dfm(corpus_subset(data_corpus_inaugural, Year > 1980))
 textstat_lexdiv(myDfm, "R")
@@ -58,3 +60,4 @@ presCluster$labels <- docnames(presDfm)
 
 plot(presCluster)
 
+  
