@@ -4,7 +4,7 @@
 # clear global environment
 rm(list = ls())
 
-setwd("C:/Users/kevin/Documents/GitHub/TAD_2021/R lessons/")
+setwd("C:/Users/kevin/Documents/GitHub/TAD21/")
 
 # load required libraries
 library(quanteda)
@@ -19,7 +19,7 @@ library(dplyr)
 # 1 Supervised Learning: Naive Bayes     ---
 #----------------------------------------
 #source of data: https://www.kaggle.com/rmisra/news-category-dataset#
-News_Category_Dataset_v2.json
+# News_Category_Dataset_v2.json
 # load data
 news_data <- readRDS("news_data.rds")
 
