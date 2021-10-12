@@ -1,0 +1,13 @@
+Formula for text-as-data research 
+
+
+What question do you want to answer? This should be something you *actually* want to know, and it should end in a question mark.
+
+
+What source of text data will you use?
+
+
+What are the two classes into which you plan to classify the text?
+
+
+Will you evaluate success more through precision, recall or accuracy? Why?
