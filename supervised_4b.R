@@ -79,7 +79,7 @@ trainControl <- trainControl(method = "cv", number = 5)
 metric <- "Accuracy"
 mtry <- sqrt(ncol(train_x))
 ntree = 51  
-tunegrid <- expand.grid(.mtry = mtry)
+tunegrid <- expand.grid(.mtry = c(0.5*mtry, mtry, 1.5*mtry))
 set.seed(1984)
 system.time(rf.caret <- train(x = train_x, y = train_y, method = "rf", metric = metric, tuneGrid = tunegrid, trControl = trainControl,
                               ntree = ntree))
