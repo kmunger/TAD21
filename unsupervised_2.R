@@ -8,7 +8,7 @@
 rm(list = ls())
 
 
-setwd("C:/Users/kevin/Documents/GitHub/TAD_2019/R_lessons/intro_R")
+setwd("C:/Users/kevin/Documents/GitHub/TAD21/")
 set.seed(1234)
 
 # Check for these packages, install them if you don't have them
@@ -40,7 +40,7 @@ blm_tweets_sum$text <- gsub(" [A-z] ", " ", blm_tweets_sum$text)
 
 # As always we begin with a DFM.
 # Create DFM
-blm_dfm <-dfm(blm_tweets_sum$text, stem = F, remove_punct = T, tolower = T, remove_twitter = T, remove_numbers = TRUE, remove = c(stopwords("english"), "http","https","rt", "t.co"))
+blm_dfm <-dfm(blm_tweets_sum$text, stem = F, remove_punct = T, tolower = T,  remove_numbers = TRUE, remove = c(stopwords("english"), "http","https","rt", "t.co"))
 
 # Topic models
 ## 2 Selecting K
@@ -82,32 +82,9 @@ blm_tm@loglikelihood
 topics(blm_tm)
 
 # Per topic per word proabilities matrix (beta)
-get_terms(blm_tm, k = 5)
+blm_top_terms<- get_terms(blm_tm, k = 5 )
 
 
-# Creates a plot of the weights and terms by topic
-blm_top_terms %>%
-  mutate(term = reorder(term, beta)) %>%
-  ggplot(aes(term, beta, fill = factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ topic, scales = "free") +
-  coord_flip()
-
-# Creates a plot of features with greatest difference in word probabilities between two topics
- %>%
-  mutate(topic = paste0("topic", topic)) %>%
-  filter(topic %in% c("topic1", "topic2")) %>%
-  spread(topic, beta) %>%
-  filter(topic1 > .001 | topic2 > .001) %>%
-  mutate(log_ratio = log2(topic2 / topic1)) %>%
-  arrange(-abs(log_ratio)) %>%
-  slice(c(1:10,(nrow(.)-9):nrow(.))) %>%
-  arrange(-log_ratio) %>%
-  mutate(term = factor(term, levels = unique(term))) %>%
-  ggplot(aes(as.factor(term), log_ratio)) +
-  geom_col(show.legend = FALSE) +
-  xlab("Terms") + ylab("Log-Ratio") +
-  coord_flip()
 
 ## 4 Visualizing topic trends over time
 
