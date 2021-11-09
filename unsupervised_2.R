@@ -25,12 +25,34 @@ lapply(libraries, require, character.only = TRUE)
 # Load data
 blm_tweets <- read.csv("blm_samp.csv", stringsAsFactors = F)
 
+
+head(blm_tweets$id_str)
+head(blm_tweets$user.screen_name)
+head(blm_tweets$text)
+
+table(blm_tweets$place.country)
+
+
+head(blm_tweets$date)
+
+
+
+
+#blm_tweets<-blm_tweets[1:5000,]
+
+
+
 # Create date vectors
 blm_tweets$datetime <- as.POSIXct(strptime(blm_tweets$created_at, "%a %b %d %T %z %Y",tz = "GMT")) # full date/timestamp
 blm_tweets$date <- mdy(paste(month(blm_tweets$datetime), day(blm_tweets$datetime), year(blm_tweets$datetime), sep = "-")) # date only
 
 # Collapse tweets so we are looking at the total tweets at the day level
 blm_tweets_sum <- blm_tweets %>% group_by(date) %>% summarise(text = paste(text, collapse = " "))
+
+
+
+blm_tweets_sum<-blm_tweets_sum[1:342,]
+
 
 # Remove non ASCII characters
 blm_tweets_sum$text <- stringi::stri_trans_general(blm_tweets_sum$text, "latin-ascii")
@@ -48,7 +70,7 @@ blm_dfm <-dfm(blm_tweets_sum$text, stem = F, remove_punct = T, tolower = T,  rem
 # Identify an appropriate number of topics (FYI, this function takes a while)
 k_optimize_blm <- FindTopicsNumber(
   blm_dfm,
-  topics = seq(from = 2, to = 30, by = 1),
+  topics = seq(from = 10, to = 15, by = 1),
   metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"),
   method = "Gibbs",
   control = list(seed = 2017),
@@ -64,7 +86,7 @@ FindTopicsNumber_plot(k_optimize_blm)
 ## 3 Visualizing Word weights
 
 # Set number of topics
-k <- 19
+k <- 15
 
 # Fit the topic model with the chosen k
 system.time(

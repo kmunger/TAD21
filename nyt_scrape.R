@@ -33,6 +33,8 @@ for(i in 0:4){
 facebook_2020_articles <- rbind_pages(pages_2020)
 
 
+facebook_2020_articles$response.docs.lead_paragraph[1]
+
 
 term <- "facebook"
 begin_date <- "20210101"
@@ -53,9 +55,10 @@ for(i in 0:5){
 }
 facebook_2021_articles <- rbind_pages(pages_2021)
 
+facebook_2021_articles$response.docs.lead_paragraph[1]
 
 
-
+table(facebook_2021_articles$response.docs.print_section)
 
 #####in-class practice: 
 
@@ -63,11 +66,32 @@ facebook_2021_articles <- rbind_pages(pages_2021)
 ### save the results of two different queries from the date range jan June 1 2021 - October 27 2021
 
 
-### calculate the proportion of the headlines from each search term assigned to a given section name
+### calculate the proportion of the articles from each search term assigned to a given section name/letter
 
 
-## create a combined dfm with the text of all of the lead paragraphs
+table(facebook_2021_articles$response.docs.print_section)
 
+
+## create two seperate dfms with the text of the lead paragraphs
+
+library(quanteda)
+fb_dfm<-corpus(facebook_2021_articles$response.docs.lead_paragraph)
+
+fb_dfm2<-corpus(facebook_2020_articles$response.docs.lead_paragraph)
 
 ## calculate the average Flesch Reading Ease score (hint: use code form descriptive_2.R) for the lead paragraphs from each search term. Which is higher?
+### May need to turn each dfm into a corpus first!
+
+
+
+library(quanteda.textstats)
+
+?corpus
+fb1<-textstat_readability(fb_dfm)
+fb2<-textstat_readability(fb_dfm2)
+
+mean(fb1$Flesch)
+mean(fb2$Flesch)
+
+
 
