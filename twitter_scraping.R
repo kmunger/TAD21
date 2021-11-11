@@ -26,13 +26,13 @@ library(rtweet)
 app_name <- "smapp"
 
 ## copy and pasted *your* keys (these are fake)
-consumer_key <- "JLhIVD8LE9Wic648DIvhd66x6"
-consumer_secret <- "WfMGn5HKmmWTP4hPdmQnp4BHiE5r9SdPEuQIev3uWLZibQRCcj"
+consumer_key <- "5y3RgYfTUOUWOGheskv4p7WWO"
+consumer_secret <- "j5pszDQ4bddt4pLiwqwezuETPYi3f1PyugM3L4eJdxUVsdwIco"
 
 
 
-access_token <- "89098361-O53vA8njEGReyvCUGNcwgDjoHTzwCoerpRgemD5nZ"
-access_secret <- "i4VZE7QPEwfz9HxBS8O6CrMYiRobnzUjGCYLplOOJHYcg"
+access_token <- "89098361-YS0MquarADIDh5XvrMdMzASxzxy3apOEgzTpKZvPY"
+access_secret <- "jhZgEZuBS1mzDvMIRAhjNb9aklVN4S6UoCP7eL8l3GGIM"
 
 
 ## create token
@@ -71,12 +71,16 @@ rt
 users_data(rt)
 
 
+rt$text[1:25]
+
 #Quickly visualize frequency of tweets over time using 
 ts_plot(rt, "hours")
 
 
 
 ## plot time series of tweets
+
+?ts_plot
 
 ts_plot(rt, "3 hours") +
   ggplot2::theme_minimal() +
@@ -132,6 +136,10 @@ par(mar = c(0, 0, 0, 0))
 maps::map("state", lwd = .25)
 with(rt, points(lng, lat, pch = 20, cex = 1.5, col = rgb(0, .3, .7, .75)))
 
+
+table(rt$lng)
+
+
 #####################
 ### Stream tweets
 #####################
@@ -139,14 +147,16 @@ with(rt, points(lng, lat, pch = 20, cex = 1.5, col = rgb(0, .3, .7, .75)))
 #Randomly sample (approximately 1%) from the live stream of 
 #all tweets.
 ## random sample for 30 seconds (default)
-rt <- stream_tweets("",  token = token)
+rt <- stream_tweets("",  token = token, timeout = 3)
 
 ts_plot(rt, by = "secs")
+
+table(rt$lang)
 
 #Stream all geo enabled tweets from London for 60 seconds.
 ## stream tweets from london for 60 seconds
 
-rt <- stream_tweets(lookup_coords("london, uk"),  token = token)
+rt <- stream_tweets(lookup_coords("london, uk"),  token = token, timeout = 3)
 
 #Stream all tweets mentioning 
 #biden
@@ -164,6 +174,9 @@ stream_tweets(
 ## read in the data as a tidy tbl data frame
 biden <- parse_stream("tweetsaboutbiden.json")
 
+
+
+
 #####################
 ### Get friends
 #####################
@@ -175,6 +188,8 @@ cnn_fds <- get_friends("cnn", token = token)
 ## lookup data on those accounts
 cnn_fds_data <- lookup_users(cnn_fds$user_id, token = token)
 
+
+x<-users_data(cnn_fds_data)
 #####################
 ### Get followers
 #####################
@@ -187,10 +202,16 @@ cnn_flw <- get_followers("cnn", n = 750, token = token)
 ## lookup data on those accounts
 cnn_flw_data <- lookup_users(cnn_flw$user_id, token = token)
 
+
+x<-users_data(cnn_flw_data)
+
+
 #Or if you really want ALL of their followers:
 
 ## how many total follows does cnn have?
 cnn <- lookup_users("cnn", token = token)
+
+cnn$followers_count
 
 ## get them all (this would take a little over 5 days)
 #cnn_flw <- get_followers(
@@ -231,6 +252,8 @@ tmls %>%
 #Get the 3 most recently favorited statuses by JK Rowling.
 tay <- get_favorites("taylorswift13", n = 3, token = token)
 
+
+
 #####################
 ### Search users
 #####################
@@ -240,6 +263,10 @@ tay <- get_favorites("taylorswift13", n = 3, token = token)
 ## search for users with PSU in their profiles
 usrs <- search_users("PSU", n = 10, token = token)
 
+
+colnames(tmls)
+
+x<-users_data(usrs)
 #####################
 ### Get trends
 #####################

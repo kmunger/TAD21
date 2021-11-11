@@ -5,8 +5,12 @@
 rm(list = ls())
 libraries <- c("topicmodels", "dplyr", "stm", "quanteda")
 
-setwd("C:/Users/kevin/Documents/GitHub/TAD_2019/R_lessons/intro_R")
-install.packages("rsvd")
+lapply(libraries, require, character.only = TRUE)
+
+
+setwd("C:/Users/kevin/Documents/GitHub/TAD21")
+
+
 # Loading data: Political blogs from the 2008 election on a conservative-liberal dimension
 data(poliblog5k)
 head(poliblog5k.meta)
