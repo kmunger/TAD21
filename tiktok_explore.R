@@ -109,7 +109,10 @@ rep_hh_df<-extract_df_from_user(rep_hh)
 
 
 
-plot( rep_hh_df$times, log(rep_hh_df$plays),  main="@therepublicanhypehouse")
+plot( rep_hh_df$times, (rep_hh_df$plays),  main="@therepublicanhypehouse")
+
+
+maga_hash_df$text[1:10]
 
 
 ####
@@ -119,14 +122,29 @@ plot( rep_hh_df$times, log(rep_hh_df$plays),  main="@therepublicanhypehouse")
 
 ###read a few of the texts on the liberal and conservative tiktoks
 
+### look at 20 of each. How many are *actually* liberal or conservative?
+
+
 ### What are the hashtags that are most commonly used by liberal and conservative tiktokers?
 
-### Conduct a sentiment analysis using the Hu and Liu dictionary -- on average, is there a difference? 
+### Conduct a sentiment analysis using this -- on average, is there a difference? 
+
+in_path <- "XXXXX YOU PATH"
+
+pos <- read.table(paste0(in_path, "positive-words.txt"), stringsAsFactors = F)
+neg <- read.table(paste0(in_path, "negative-words.txt"), stringsAsFactors = F)
+
+# create dictionary object (a quanteda object)
+sentiment_dict <- dictionary(list(pos = pos$V1, neg = neg$V1))
 
 
+# create document feature matrix with pre-processing options
+yelp_dfm <- dfm(samp$text, tolower = TRUE, stem = FALSE, dictionary = sentiment_dict)
+
+
+
+ 
 ### plot the relationship between the sentiment and the number of comments (in the whole dataset) --- is there a relationship?
-
-
 
 
 
