@@ -61,7 +61,7 @@ textstat_lexdiv(dfm(data_corpus_inaugural, groups = "President", verbose = FALSE
 textstat_readability(data_corpus_inaugural, "Flesch")
 
 
-
+?textstat_lexdiv
 
 #read<-readability(df$texts)
 
